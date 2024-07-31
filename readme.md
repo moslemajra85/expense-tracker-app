@@ -1,4 +1,5 @@
-## Expense Tracker
+# Expense Tracker  
+## Vanilla Javascript Version
 
 Keep track of income and expenses. Add and remove items and save to local storage
 
