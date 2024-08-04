@@ -6,30 +6,34 @@ const form = document.getElementById('form');
 const title = document.getElementById('title');
 const amount = document.getElementById('amount');
 
-const dummyTransactions = [
-  {
-    id: 1,
-    title: 'flowers',
-    amount: -20,
-  },
-  {
-    id: 2,
-    title: 'books',
-    amount: -10,
-  },
-  {
-    id: 3,
-    title: 'salary',
-    amount: 300,
-  },
-  {
-    id: 4,
-    title: 'Camera',
-    amount: 150,
-  },
-];
+// const dummyTransactions = [
+//   {
+//     id: 1,
+//     title: 'flowers',
+//     amount: -20,
+//   },
+//   {
+//     id: 2,
+//     title: 'books',
+//     amount: -10,
+//   },
+//   {
+//     id: 3,
+//     title: 'salary',
+//     amount: 300,
+//   },
+//   {
+//     id: 4,
+//     title: 'Camera',
+//     amount: 150,
+//   },
+// ];
 
-let transactions = dummyTransactions;
+const localStorageTransactions = JSON.parse(
+  localStorage.getItem('transactions')
+);
+
+let transactions = localStorageTransactions || [];
 let amounts = extractAmounts(transactions);
 
 // extract amounts
@@ -50,8 +54,8 @@ function addTransaction(e) {
       amount: parseFloat(amount.value),
     };
 
-    transactions.push(transaction);
     // reassign amounts since the transactions has changed
+    addToLocalStorage(transaction);
     amounts = extractAmounts(transactions);
     addTransactionsDOM(transaction);
     updateValues();
@@ -66,20 +70,32 @@ function generateId() {
   return Math.floor(Math.random() * 100000000);
 }
 
+// update localstorageTransactions
+function addToLocalStorage(transaction) {
+  transactions.push(transaction);
+  localStorage.setItem('transactions', JSON.stringify(transactions));
+}
+
+function removeFromLocalStorage(transaction) {
+  transactions = transactions.filter((tr) => tr.id !== transaction.id);
+  localStorage.setItem('transactions', JSON.stringify(transactions));
+}
 // remove a transaction from list of transaction
 function removeTransactionDOM(transaction) {
   // update the ui
-//   const item = document.querySelector(`[data-item-id="${transaction.id}"]`);
-//   if (item) {
-//     item.remove();
-//   }
+  //   const item = document.querySelector(`[data-item-id="${transaction.id}"]`);
+  //   if (item) {
+  //     item.remove();
+  //   }
 
   // update data
   transactions = transactions.filter((tr) => tr.id !== transaction.id);
   amounts = extractAmounts(transactions);
+  removeFromLocalStorage(transaction);
+
   //updateValues()
-  init()
- }
+  init();
+}
 
 // Add transactions To Dom
 function addTransactionsDOM(transaction) {
