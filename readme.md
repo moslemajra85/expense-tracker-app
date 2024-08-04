@@ -11,7 +11,7 @@ A simple expense tracker application built with vanilla JavaScript. This app all
 
 ## Demo
 
-[Link to live demo (if available)](https://your-live-demo-link.com)
+[Link to live demo (if available)](https://expense-tracker-vanilla-4n3nsdoez-ajraneweragmailcoms-projects.vercel.app/)
 
 ## Screenshots
 
